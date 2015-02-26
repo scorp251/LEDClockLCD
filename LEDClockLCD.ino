@@ -54,14 +54,13 @@ SWTFT tft;
 #define XM A2 //tftloop-XR pcbundertft-14 arduinoshieldLCD_RS!!! arduinouno-A2
 #define YM 7  //tftloop-XR pcbundertft-15 arduinoshieldLCD_D7 arduinouno-7
 #define XP 6  //tftloop-XR pcbundertft-12 arduinoshieldLCD_D6 arduinouno-6
-#define TS_MINX 150//0
-#define TS_MINY 120//0
-#define TS_MAXX 920//900//320      //for calibrate analog resistans ~1500om/700om
-#define TS_MAXY 940//800//900//240 //for calibrate analog resistans ~1500om/700om
+#define TS_MINX 130//0
+#define TS_MINY 140//0
+#define TS_MAXX 915//900//320      //for calibrate analog resistans ~1500om/700om
+#define TS_MAXY 945//800//900//240 //for calibrate analog resistans ~1500om/700om
 #define MINPRESSURE 10    // analog calibrate
 #define MAXPRESSURE 1000  // analog calibrate
-#define bordur   5
-#define pen      3
+
 // For better pressure precision, we need to know the resistance// between X+ and X- Use any multimeter to read it
 // For the one we're using, its 300 ohms across the X plate
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
@@ -160,8 +159,11 @@ void loop(void) {
 	pinMode(XM, OUTPUT); //2 chip on one pins
 	pinMode(YP, OUTPUT); //2 chip on one pins
 	if (p.z > MINPRESSURE && p.z < MAXPRESSURE) { // analog calibrate
-		p.x = map(p.x, TS_MINX, TS_MAXX, 0, tft.width()); // aprocsimate variable
-		p.y = map(p.y, TS_MINY, TS_MAXY, 0, tft.height()); // aprocsimate variable
+		int16_t y = map(p.x, TS_MINX, TS_MAXX, 0, tft.width()); // aprocsimate variable
+		int16_t x = map(p.y, TS_MINY, TS_MAXY, 0, tft.height()); // aprocsimate variable
+		p.x = x;
+		p.y = y;
+
 
 		//    if (300< p.x) { // erase only on bordur  //no need have reset button
 		//      Serial.println("erase"); // test

@@ -14,7 +14,7 @@
 // 3+ uses insert sort to get the median value.
 // We found 2 is precise yet not too slow so we suggest sticking with it!
 
-#define NUMSAMPLES 2
+#define NUMSAMPLES 1
 
 Point::Point(void) {
   x = y = 0;
